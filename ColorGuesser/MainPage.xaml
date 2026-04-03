@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ColorGuesser.MainPage">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30,0"
+            Spacing="25">
+            <Grid RowDefinitions="Auto, Auto, Auto">
+                <BoxView Color="{Binding PickedHexColor}" HeightRequest="30" HorizontalOptions="Fill"/>
+                
+                <Label x:Name="PickedColor" Text="{Binding PickedHexColor}" FontSize="24" FontAttributes="Bold" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HeightRequest="32" BackgroundColor="{Binding PickedHexColorCodeOnly, StringFormat='#8D{0}'}" Grid.Row="1"/>
+                    
+                <BoxView Color="{Binding PickedHexColor}" HeightRequest="12" HorizontalOptions="Fill" Grid.Row="2"/>
+            </Grid> 
+            
+            <Grid ColumnDefinitions="Auto, Auto" HorizontalOptions="Start">
+                <Entry x:Name="ColorWrited" Text="{Binding WritedHexColor, Mode=TwoWay}" MinimumHeightRequest="0" MinimumWidthRequest="0" HorizontalOptions="Start"/>
+                <BoxView Color="{Binding WritedHexColor}" HeightRequest="30" WidthRequest="30" Grid.Column="1"/>
+            </Grid>
+            
+            <Grid>
+                <Button Clicked="GuessColorButton_OnClicked" BackgroundColor="#3e3e5e"/>
+                
+                <Grid ColumnDefinitions="Auto, Auto" VerticalOptions="Center" HorizontalOptions="Center" ColumnSpacing="4" InputTransparent="True">
+                    <Label Text="I'm sure the color is "/>
+                    <BoxView HeightRequest="14" WidthRequest="56" Color="{Binding WritedHexColor}" Grid.Column="1"/>
+                </Grid>
+            </Grid>
+            
+            <Label Text="{Binding IsColorWritedCorrect}" FontSize="28" HorizontalOptions="Center"/>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

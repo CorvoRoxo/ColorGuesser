@@ -9,6 +9,7 @@ public partial class MainPage : ContentPage
     public static Random Random = new();
     
     ColorGuesserVM ColorGuesserVM { get; set; } = new();
+    private Color UserColor { get; set; } = new(0, 0, 0);
 
     public MainPage()
     {
@@ -21,17 +22,26 @@ public partial class MainPage : ContentPage
     
     private void GuessColorButton_OnClicked(object? sender, EventArgs e)
     {
-        ColorGuesserVM.IsColorWritedCorrect = ColorGuesserVM.WritedHexColor.ToLower() == ColorGuesserVM.PickedHexColor.ToLower();
+        UserColor = UserColorInput.Color;
+        UserColorToHex_Label.Text = $"{UserColor.ToHex()}";
+        
+        ColorGuesserVM.IsColorWritedCorrect = UserColor.ToHex().ToLower() == ColorGuesserVM.PickedHexColor.ToLower();
+        System.Diagnostics.Debug.WriteLine($"{UserColor.ToHex()} == {ColorGuesserVM.PickedHexColor}");
+        
         if (!ColorGuesserVM.IsColorWritedCorrect)
             return;
         
         ColorGuesserVM.SetNewHexColor();
-        ColorWrited.Text = "#";
     }
 
     private void HideHexColorLabelButton_OnClicked(object? sender, EventArgs e)
     {
         PickedColor.IsVisible = !PickedColor.IsVisible;
+    }
+
+    private void RGBColor_Slider_OnValueChanged(object? sender, ValueChangedEventArgs e)
+    {
+        
     }
 }
 

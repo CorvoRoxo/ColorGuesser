@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:ColorGuesser"
              x:Class="ColorGuesser.MainPage">
 
     <ScrollView>
@@ -15,17 +16,17 @@
                 <BoxView Color="{Binding PickedHexColor}" HeightRequest="12" HorizontalOptions="Fill" Grid.Row="2"/>
             </Grid> 
             
-            <Grid ColumnDefinitions="Auto, Auto" HorizontalOptions="Start">
-                <Entry x:Name="ColorWrited" Text="{Binding WritedHexColor, Mode=TwoWay}" MinimumHeightRequest="0" MinimumWidthRequest="0" HorizontalOptions="Start"/>
-                <BoxView Color="{Binding WritedHexColor}" HeightRequest="30" WidthRequest="30" Grid.Column="1"/>
-            </Grid>
+            <BoxView Height="45" HorizontalOptions="Fill"/>
             
+            <Label x:Name="UserColorToHex_Label" Text="#000000" />
+            <local:RgbColorControllerView x:Name="UserColorInput"/>
+
             <Grid>
                 <Button Clicked="GuessColorButton_OnClicked" BackgroundColor="#3e3e5e"/>
                 
                 <Grid ColumnDefinitions="Auto, Auto" VerticalOptions="Center" HorizontalOptions="Center" ColumnSpacing="4" InputTransparent="True">
                     <Label Text="I'm sure the color is "/>
-                    <BoxView HeightRequest="14" WidthRequest="56" Color="{Binding WritedHexColor}" Grid.Column="1"/>
+                    <BoxView BindingContext="{x:Reference UserColorInput}" HeightRequest="14" WidthRequest="56" Color="{Binding Color}" Grid.Column="1"/>
                 </Grid>
             </Grid>
             

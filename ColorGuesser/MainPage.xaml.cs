@@ -17,7 +17,6 @@ public partial class MainPage : ContentPage
         
         ColorGuesserVM.SetNewHexColor();
         this.BindingContext = ColorGuesserVM;
-        
     }
     
     private void GuessColorButton_OnClicked(object? sender, EventArgs e)
@@ -31,16 +30,14 @@ public partial class MainPage : ContentPage
             return;
         
         ColorGuesserVM.SetNewHexColor();
+        UserColorInput.R_Controller.ValueEditor.Text = "0";
+        UserColorInput.G_Controller.ValueEditor.Text = "0";
+        UserColorInput.B_Controller.ValueEditor.Text = "0";
     }
 
     private void HideHexColorLabelButton_OnClicked(object? sender, EventArgs e)
     {
         PickedColor.IsVisible = !PickedColor.IsVisible;
-    }
-
-    private void RGBColor_Slider_OnValueChanged(object? sender, ValueChangedEventArgs e)
-    {
-        
     }
 }
 

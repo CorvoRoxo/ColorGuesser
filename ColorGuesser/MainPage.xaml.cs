@@ -23,7 +23,6 @@ public partial class MainPage : ContentPage
     private void GuessColorButton_OnClicked(object? sender, EventArgs e)
     {
         UserColor = UserColorInput.Color;
-        UserColorToHex_Label.Text = $"{UserColor.ToHex()}";
         
         ColorGuesserVM.IsColorWritedCorrect = UserColor.ToHex().ToLower() == ColorGuesserVM.PickedHexColor.ToLower();
         System.Diagnostics.Debug.WriteLine($"{UserColor.ToHex()} == {ColorGuesserVM.PickedHexColor}");

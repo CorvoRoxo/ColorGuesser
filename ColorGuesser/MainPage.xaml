@@ -2,8 +2,15 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:ColorGuesser"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="ColorGuesser.MainPage">
-
+    
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:ColorToHexRgbStringConverter x:Key="ColorToHexRgbStringConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
     <ScrollView>
         <VerticalStackLayout
             Padding="30,0"
@@ -18,11 +25,11 @@
             
             <BoxView Height="45" HorizontalOptions="Fill"/>
             
-            <Label x:Name="UserColorToHex_Label" Text="#000000" />
+            <Label x:Name="UserColorToHex_Label" BindingContext="{x:Reference UserColorInput}" Text="{Binding Color, Converter={StaticResource ColorToHexRgbStringConverter}}" />
             <local:RgbColorControllerView x:Name="UserColorInput"/>
 
             <Grid>
-                <Button Clicked="GuessColorButton_OnClicked" BackgroundColor="#3e3e5e"/>
+                <Button Clicked="GuessColorButton_OnClicked" BackgroundColor="#3e3e5e"/>    
                 
                 <Grid ColumnDefinitions="Auto, Auto" VerticalOptions="Center" HorizontalOptions="Center" ColumnSpacing="4" InputTransparent="True">
                     <Label Text="I'm sure the color is "/>

@@ -13,23 +13,30 @@
     
     <Grid RowDefinitions="1*, 1*">
         <Grid ColumnDefinitions="1*, 1*" ColumnSpacing="5">
-            <VerticalStackLayout>
+            <!-- User Color Input Controller -->
+            <VerticalStackLayout Padding="6">
                 <local:RgbColorControllerView x:Name="UserColorInput" Margin="25, 0"/>
                 <Label BindingContext="{x:Reference UserColorInput}" Text="{Binding Color, Converter={StaticResource ColorToHexRgbStringConverter}}" FontAttributes="Bold" FontSize="24" HorizontalOptions="Center"/>
             </VerticalStackLayout>
             
-            <Grid RowDefinitions="1*, Auto" Grid.Column="1">
-                <BoxView x:Name="PickedColor" BackgroundColor="{Binding PickedHexColor}" HorizontalOptions="Fill" VerticalOptions="Fill"/>
-                <Label Text="{Binding PickedHexColor}" FontAttributes="Bold" FontSize="24" HorizontalOptions="Center" Grid.Row="1"/>
+            <!-- Random Color Picked Display -->
+            <Grid RowDefinitions="1*, Auto" Grid.Column="1" Padding="6">
+                <BoxView x:Name="PickedColorDisplay" BackgroundColor="{Binding ColorPicked}" HorizontalOptions="Fill" VerticalOptions="Fill"/>
+                
+                <Grid ColumnDefinitions="Auto, Auto" Grid.Row="1">
+                    <Label x:Name="PickedColorDisplayLabel" BindingContext="{x:Reference PickedColorDisplay}" FontAttributes="Bold" FontSize="24" HorizontalOptions="Start"/>
+                    <Button Text="New Random Color" Clicked="PickNewRandomColor_ButtonOnClick" MinimumHeightRequest="0" MinimumWidthRequest="0" Padding="0" VerticalOptions="Center" HorizontalOptions="End" Grid.Column="1"/>
+                </Grid>
             </Grid>
         </Grid>
         
+        <!-- User Color Input Button Sender -->
         <Grid Grid.Row="1" HorizontalOptions="Center" VerticalOptions="Center">
             <Button BindingContext="{x:Reference SendButtonGrid}" Clicked="GuessColorButton_OnClicked" WidthRequest="{Binding Width}"/>
             
-            <Grid x:Name="SendButtonGrid" ColumnDefinitions="Auto, Auto" ColumnSpacing="4" HorizontalOptions="Center" VerticalOptions="Center">
-                <Label Text="I'm sure the color is"/>
-                <BoxView BindingContext="{x:Reference UserColorInput}" BackgroundColor="{Binding Color}" HeightRequest="14" WidthRequest="45" Grid.Column="1"/>
+            <Grid x:Name="SendButtonGrid" ColumnDefinitions="Auto, Auto" ColumnSpacing="4" HorizontalOptions="Center" VerticalOptions="Center" InputTransparent="True">
+                <Label Text="I'm sure the color is" InputTransparent="True"/>
+                <BoxView BindingContext="{x:Reference UserColorInput}" BackgroundColor="{Binding Color}" HeightRequest="14" WidthRequest="45" Grid.Column="1" InputTransparent="True"/>
             </Grid>
         </Grid>
     </Grid>

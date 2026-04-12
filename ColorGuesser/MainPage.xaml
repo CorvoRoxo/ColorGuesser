@@ -4,39 +4,73 @@
              xmlns:local="clr-namespace:ColorGuesser"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="ColorGuesser.MainPage">
-    
+
     <ContentPage.Resources>
         <ResourceDictionary>
             <toolkit:ColorToHexRgbStringConverter x:Key="ColorToHexRgbStringConverter"/>
         </ResourceDictionary>
     </ContentPage.Resources>
     
-    <Grid RowDefinitions="1*, 1*">
-        <Grid ColumnDefinitions="1*, 1*" ColumnSpacing="5">
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint=".5, 0" EndPoint=".5, 1">
+            <GradientStop Offset="0" Color="{AppThemeBinding Dark={StaticResource Gray900}, Light={StaticResource Secondary}}"/>
+            <GradientStop Offset="1" Color="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource Secondary}}"/>
+        </LinearGradientBrush>
+    </ContentPage.Background>
+    
+    <Grid RowDefinitions="1*, 1*" Padding="12">
+        <Grid ColumnDefinitions="1*, Auto, 1*" ColumnSpacing="24">
             <!-- User Color Input Controller -->
-            <VerticalStackLayout Padding="6">
-                <local:RgbColorControllerView x:Name="UserColorInput" Margin="25, 0"/>
-                <Label BindingContext="{x:Reference UserColorInput}" Text="{Binding Color, Converter={StaticResource ColorToHexRgbStringConverter}}" FontAttributes="Bold" FontSize="24" HorizontalOptions="Center"/>
+            <VerticalStackLayout VerticalOptions="Center">
+                <local:RgbColorControllerView x:Name="UserColorInput" Margin="0, 0"/>
+
+                <VerticalStackLayout VerticalOptions="End">
+                    <Label BindingContext="{x:Reference UserColorInput}" Text="{Binding Color, Converter={StaticResource ColorToHexRgbStringConverter}}" FontAttributes="Bold" FontSize="24" HorizontalOptions="Center"/>
+                    <Button Text="Reset Color" Clicked="ResetUserInputColorWithAnimation_ButtonOnClick" MinimumHeightRequest="0" MinimumWidthRequest="0" Padding="0" CornerRadius="0" VerticalOptions="Center" HorizontalOptions="Center"/>
+                </VerticalStackLayout>
             </VerticalStackLayout>
             
+            <!-- Circles Display -->
+            <HorizontalStackLayout Grid.Column="1" Spacing="-4">
+                <Path BindingContext="{x:Reference UserColorInput}" Fill="{Binding Color}" Stroke="White" StrokeThickness="3">
+                    <Path.Data>
+                        <PathGeometry>
+                            <PathFigure StartPoint="50,0">
+                                <ArcSegment Point="50, 100" Size="50, 50" SweepDirection="CounterClockwise" IsLargeArc="False"/>
+                            </PathFigure>
+                        </PathGeometry>
+                    </Path.Data>
+                </Path>
+
+                <Path BindingContext="{x:Reference PickedColorDisplay}" Fill="{Binding BackgroundColor}" Stroke="White" StrokeThickness="3">
+                    <Path.Data>
+                        <PathGeometry>
+                            <PathFigure StartPoint="0,0">
+                                <ArcSegment Point="0, 100" Size="50, 50" SweepDirection="Clockwise" IsLargeArc="False"/>
+                            </PathFigure>
+                        </PathGeometry>
+                    </Path.Data>
+                </Path>
+            </HorizontalStackLayout>
+            
             <!-- Random Color Picked Display -->
-            <Grid RowDefinitions="1*, Auto" Grid.Column="1" Padding="6">
-                <BoxView x:Name="PickedColorDisplay" BackgroundColor="{Binding ColorPicked}" HorizontalOptions="Fill" VerticalOptions="Fill"/>
+            <Grid RowDefinitions="1*, Auto" Grid.Column="2">
+                <BoxView x:Name="PickedColorDisplay" BackgroundColor="{Binding ColorPicked}"/>
                 
-                <Grid ColumnDefinitions="Auto, Auto" Grid.Row="1">
-                    <Label x:Name="PickedColorDisplayLabel" BindingContext="{x:Reference PickedColorDisplay}" FontAttributes="Bold" FontSize="24" HorizontalOptions="Start"/>
-                    <Button Text="New Random Color" Clicked="PickNewRandomColor_ButtonOnClick" MinimumHeightRequest="0" MinimumWidthRequest="0" Padding="0" VerticalOptions="Center" HorizontalOptions="End" Grid.Column="1"/>
-                </Grid>
+                <VerticalStackLayout Grid.Row="1">
+                    <Label x:Name="PickedColorDisplayLabel" BindingContext="{x:Reference PickedColorDisplay}" Text="{Binding BackgroundColor, Converter={StaticResource ColorToHexRgbStringConverter}}" FontAttributes="Bold" FontSize="24" HorizontalOptions="Center"/>
+                    <Button Text="New Random Color" Clicked="PickNewRandomColorWithAnimation_ButtonOnClick" MinimumHeightRequest="0" MinimumWidthRequest="0" Padding="0" CornerRadius="0" HorizontalOptions="Center" Grid.Column="1"/>
+                </VerticalStackLayout>
             </Grid>
         </Grid>
         
         <!-- User Color Input Button Sender -->
-        <Grid Grid.Row="1" HorizontalOptions="Center" VerticalOptions="Center">
-            <Button BindingContext="{x:Reference SendButtonGrid}" Clicked="GuessColorButton_OnClicked" WidthRequest="{Binding Width}"/>
+        <Grid x:Name="GuessColorButtonMainGrid" Grid.Row="1" HorizontalOptions="Center" VerticalOptions="Center">
+            <Button BindingContext="{x:Reference SendButtonGrid}" Clicked="GuessColorButton_OnClicked" WidthRequest="{Binding Width }" Padding="12"/>
             
             <Grid x:Name="SendButtonGrid" ColumnDefinitions="Auto, Auto" ColumnSpacing="4" HorizontalOptions="Center" VerticalOptions="Center" InputTransparent="True">
-                <Label Text="I'm sure the color is" InputTransparent="True"/>
-                <BoxView BindingContext="{x:Reference UserColorInput}" BackgroundColor="{Binding Color}" HeightRequest="14" WidthRequest="45" Grid.Column="1" InputTransparent="True"/>
+                <BoxView BindingContext="{x:Reference UserColorInput}" BackgroundColor="{Binding Color}" HeightRequest="14" WidthRequest="45" Grid.Column="1" InputTransparent="True" Margin="0, 0, 12, 0"/>
+                <Label Text="I'm sure the color is" InputTransparent="True" Margin="12, 0, 0, 0"/>
             </Grid>
         </Grid>
     </Grid>

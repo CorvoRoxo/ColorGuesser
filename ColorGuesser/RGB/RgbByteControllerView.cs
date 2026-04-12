@@ -22,8 +22,9 @@ public partial class RgbByteControllerView : ContentView
 
         ValueName.Text = $"{this.ValueType}";
         ValueName.VerticalTextAlignment = TextAlignment.Center;
-            
+        
         ValueSlider.Maximum = 255;
+        ValueSlider.MinimumTrackColor = GetColorByRgbByte(ValueType);
         
         ValueEditor.SetBinding(Editor.TextProperty, new Binding(source: ValueSlider, path: "Value", mode: BindingMode.TwoWay, stringFormat: "{0:F0}"));
 
@@ -59,5 +60,23 @@ public partial class RgbByteControllerView : ContentView
         MainGrid.Add(ValueSlider, 2);
         
         this.Content = MainGrid;
+    }
+
+    private Color GetColorByRgbByte(RgbByte RgbByte)
+    {
+        switch (RgbByte)
+        {
+            case RgbByte.R:
+                return new Color(255, 0, 0);
+            
+            case RgbByte.G:
+                return new Color(0, 255, 0);
+            
+            case RgbByte.B:
+                return new Color(0, 0, 255);
+            
+            default:
+                return new Color(0, 0, 0);
+        }
     }
 }
